@@ -9,7 +9,7 @@ class Mailbox
   #Returns the notifications for the messageable
   def notifications(options = {})
     #:type => nil is a hack not to give Messages as Notifications
-    notifs = Notification.recipient(@messageable).where(:type => nil).order("notifications.created_at DESC")
+    notifs = MessageNotification.recipient(@messageable).where(:type => nil).order("notifications.created_at DESC")
     if (options[:read].present? and options[:read]==false) or (options[:unread].present? and options[:unread]==true)
       notifs = notifs.unread
     end
@@ -109,7 +109,7 @@ class Mailbox
   #If object isn't one of the above, a nil will be returned
   def receipts_for(object)
     case object
-    when Message, Notification
+    when Message, MessageNotification
       return object.receipt_for(@messageable)
     when Conversation
       return object.receipts_for(@messageable)

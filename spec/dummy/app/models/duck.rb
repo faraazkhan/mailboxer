@@ -4,7 +4,7 @@ class Duck < ActiveRecord::Base
     case object
     when Message
       return nil
-    when Notification
+    when MessageNotification
       return email
     end
   end

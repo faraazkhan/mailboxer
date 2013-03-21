@@ -47,7 +47,7 @@ module Mailboxer
 
       #Sends a notification to the messageable
       def notify(subject,body,obj = nil,sanitize_text=true,notification_code=nil)
-        return Notification.notify_all([self],subject,body,obj,sanitize_text,notification_code)
+        return MessageNotification.notify_all([self],subject,body,obj,sanitize_text,notification_code)
       end
 
       #Sends a messages, starting a new conversation, with the messageable
@@ -109,7 +109,7 @@ module Mailboxer
         case obj
         when Receipt
           return obj.mark_as_read if obj.receiver == self
-        when Message, Notification
+        when Message, MessageNotification
           obj.mark_as_read(self)
         when Conversation
           obj.mark_as_read(self)
@@ -132,7 +132,7 @@ module Mailboxer
         case obj
         when Receipt
           return obj.mark_as_unread if obj.receiver == self
-        when Message, Notification
+        when Message, MessageNotification
           obj.mark_as_unread(self)
         when Conversation
           obj.mark_as_unread(self)
@@ -155,7 +155,7 @@ module Mailboxer
         case obj
         when Receipt
           return obj.move_to_trash if obj.receiver == self
-        when Message, Notification
+        when Message, MessageNotification
           obj.move_to_trash(self)
         when Conversation
           obj.move_to_trash(self)
@@ -178,7 +178,7 @@ module Mailboxer
         case obj
         when Receipt
           return obj.untrash if obj.receiver == self
-        when Message, Notification
+        when Message, MessageNotification
           obj.untrash(self)
         when Conversation
           obj.untrash(self)

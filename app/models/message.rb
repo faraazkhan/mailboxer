@@ -1,4 +1,4 @@
-class Message < Notification
+class Message < MessageNotification
   attr_accessible :attachment
 
   belongs_to :conversation, :validate => true, :autosave => true

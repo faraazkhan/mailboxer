@@ -42,7 +42,7 @@ describe Message do
 
   it "should notify several users" do
     recipients = Set.new [@entity1, @entity2, @entity3]
-    Notification.notify_all(recipients, "Subject", "Body")
+    MessageNotification.notify_all(recipients, "Subject", "Body")
 
     #Check getting ALL receipts
     @entity1.mailbox.receipts.size.should==1
@@ -78,7 +78,7 @@ describe Message do
   end
 
   it "should notify a single recipient" do
-    Notification.notify_all(@entity1, "Subject", "Body")
+    MessageNotification.notify_all(@entity1, "Subject", "Body")
 
     #Check getting ALL receipts
     @entity1.mailbox.receipts.size.should==1
@@ -95,7 +95,7 @@ describe Message do
   end
   
   describe "#expire" do
-    subject { Notification.new }
+    subject { MessageNotification.new }
     
     describe "when the notification is already expired" do
       before do
@@ -128,7 +128,7 @@ describe Message do
   end
   
   describe "#expire!" do
-    subject { Notification.new }
+    subject { MessageNotification.new }
 
     describe "when the notification is already expired" do
       before do
@@ -161,7 +161,7 @@ describe Message do
   end
 
   describe "#expired?" do
-    subject { Notification.new }
+    subject { MessageNotification.new }
     context "when the expiration date is in the past" do
       before { subject.stub(:expires => Time.now - 1.second) }
       it 'should be expired' do

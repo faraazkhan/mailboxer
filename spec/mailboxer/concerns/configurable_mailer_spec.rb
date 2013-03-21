@@ -2,7 +2,7 @@ require 'spec_helper'
 describe Concerns::ConfigurableMailer do
 
   describe "Notification instance#get_mailer" do
-    before { @obj = Notification.new }
+    before { @obj = MessageNotification.new }
     it "returns default_mailer" do
       @obj.get_mailer.should eq NotificationMailer
     end

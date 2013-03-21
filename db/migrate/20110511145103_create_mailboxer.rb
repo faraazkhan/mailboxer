@@ -10,7 +10,7 @@ class CreateMailboxer < ActiveRecord::Migration
   	#Receipts
     create_table :receipts do |t|
       t.references :receiver, :polymorphic => true
-      t.column :notification_id, :integer, :null => false
+      t.column :message_notification_id, :integer, :null => false
       t.column :read, :boolean, :default => false
       t.column :trashed, :boolean, :default => false
       t.column :deleted, :boolean, :default => false
@@ -18,8 +18,8 @@ class CreateMailboxer < ActiveRecord::Migration
       t.column :created_at, :datetime, :null => false
       t.column :updated_at, :datetime, :null => false
     end    
-  	#Notifications and Messages
-    create_table :notifications do |t|
+  	#message_notifications and Messages
+    create_table :message_notifications do |t|
       t.column :type, :string
       t.column :body, :text
       t.column :subject, :string, :default => ""
@@ -35,27 +35,27 @@ class CreateMailboxer < ActiveRecord::Migration
   #Indexes
   	#Conversations
   	#Receipts
-  	add_index "receipts","notification_id"
+  	add_index "receipts","message_notification_id"
 
   	#Messages  
-  	add_index "notifications","conversation_id"
+  	add_index "message_notifications","conversation_id"
   
   #Foreign keys    
   	#Conversations
   	#Receipts
-  	add_foreign_key "receipts", "notifications", :name => "receipts_on_notification_id"
+  	add_foreign_key "receipts", "message_notifications", :name => "receipts_on_message_notification_id"
   	#Messages  
-  	add_foreign_key "notifications", "conversations", :name => "notifications_on_conversation_id"
+  	add_foreign_key "message_notifications", "conversations", :name => "message_notifications_on_conversation_id"
   end
   
   def self.down
   #Tables  	
-  	remove_foreign_key "receipts", :name => "receipts_on_notification_id"
-  	remove_foreign_key "notifications", :name => "notifications_on_conversation_id"
+  	remove_foreign_key "receipts", :name => "receipts_on_message_notification_id"
+  	remove_foreign_key "message_notifications", :name => "message_notifications_on_conversation_id"
   	
   #Indexes
     drop_table :receipts
     drop_table :conversations
-    drop_table :notifications
+    drop_table :message_notifications
   end
 end

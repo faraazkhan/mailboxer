@@ -1,4 +1,4 @@
-class Notification < ActiveRecord::Base
+class MessageNotification < ActiveRecord::Base
   attr_accessor :recipients
   attr_accessible :body, :subject, :global, :expires
 
@@ -30,7 +30,7 @@ class Notification < ActiveRecord::Base
   class << self
     #Sends a Notification to all the recipients
     def notify_all(recipients,subject,body,obj = nil,sanitize_text = true,notification_code=nil)
-      notification = Notification.new({:body => body, :subject => subject})
+      notification = MessageNotification.new({:body => body, :subject => subject})
       notification.recipients = recipients.respond_to?(:each) ? recipients : [recipients]
       notification.recipients = notification.recipients.uniq if recipients.respond_to?(:uniq)
       notification.notified_object = obj if obj.present?
