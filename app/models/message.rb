@@ -29,7 +29,7 @@ class Message < MessageNotification
     #Receiver receipts
     self.recipients.each do |r|
       msg_receipt = Receipt.new
-      msg_receipt.notification = self
+      msg_receipt.message_notification = self
       msg_receipt.is_read = false
       msg_receipt.receiver = r
       msg_receipt.mailbox_type = "inbox"
@@ -37,7 +37,7 @@ class Message < MessageNotification
     end
     #Sender receipt
     sender_receipt = Receipt.new
-    sender_receipt.notification = self
+    sender_receipt.message_notification = self
     sender_receipt.is_read = true
     sender_receipt.receiver = self.sender
     sender_receipt.mailbox_type = "sentbox"
