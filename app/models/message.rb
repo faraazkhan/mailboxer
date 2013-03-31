@@ -1,5 +1,8 @@
 class Message < MessageNotification
   attr_accessible :recipients, :subject, :body, :conversation_id, :attachment
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
+  extend ActiveModel::Naming
 
   belongs_to :conversation, :validate => true, :autosave => true
   validates_presence_of :sender
