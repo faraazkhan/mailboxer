@@ -1,5 +1,5 @@
 class Message < MessageNotification
-  attr_accessible :attachment
+  attr_accessible :recipients, :subject, :body, :conversation_id, :attachment
 
   belongs_to :conversation, :validate => true, :autosave => true
   validates_presence_of :sender
@@ -63,4 +63,26 @@ class Message < MessageNotification
     end
     return sender_receipt
   end
+
+  def initialize(attributes = {})
+      attributes.each do |name, value|
+        send("#{name}=", value)
+      end
+  end
+
+    def persisted?
+      false
+    end
+
+
+    def recipients
+      @recipient_list
+    end
+
+    def recipients=(string='')
+      @recipient_list = []
+      string.split(',').each do |s|
+        @recipient_list << MessagingUser.find_by_email!(s.strip) unless s.blank?
+      end
+    end
 end
