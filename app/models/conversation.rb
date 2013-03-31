@@ -10,7 +10,7 @@ class Conversation < ActiveRecord::Base
 
   scope :participant, lambda {|participant|
     select('DISTINCT conversations.*').
-    where('notifications.type'=> Message.name).
+    where('message_notifications.type'=> Message.name).
     order("conversations.updated_at DESC").
     joins(:receipts).merge(Receipt.recipient(participant))
   }

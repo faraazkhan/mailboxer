@@ -20,9 +20,9 @@ class MessageNotification < ActiveRecord::Base
     joins(:receipts).where('receipts.is_read' => false)
   }
   scope :global, lambda { where(:global => true) }
-  scope :expired, lambda { where("notifications.expires < ?", Time.now) }
+  scope :expired, lambda { where("message_notifications.expires < ?", Time.now) }
   scope :unexpired, lambda {
-    where("notifications.expires is NULL OR notifications.expires > ?", Time.now)
+    where("message_notifications.expires is NULL OR message_notifications.expires > ?", Time.now)
   }
 
   include Concerns::ConfigurableMailer
@@ -34,7 +34,7 @@ class MessageNotification < ActiveRecord::Base
       notification.recipients = recipients.respond_to?(:each) ? recipients : [recipients]
       notification.recipients = notification.recipients.uniq if recipients.respond_to?(:uniq)
       notification.notified_object = obj if obj.present?
-      notification.notification_code = notification_code if notification_code.present?
+      notification.message_notification_code = notification_code if notification_code.present?
       return notification.deliver sanitize_text
     end
 
